@@ -1,18 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <project>
-  <executable name="dist/default/debug/test.X.debug.elf">
+  <executable name="dist/default/debug/Projet_Robot.debug.elf">
     <memory name="data">
       <units>bytes</units>
       <length>49152</length>
-      <used>80</used>
-      <free>49072</free>
+      <used>102</used>
+      <free>49050</free>
     </memory>
     <memory name="program">
       <units>bytes</units>
       <length>524514</length>
-      <used>825</used>
-      <free>523689</free>
+      <used>3264</used>
+      <free>521250</free>
     </memory>
   </executable>
 </project>

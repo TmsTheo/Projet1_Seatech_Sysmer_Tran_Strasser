@@ -7,7 +7,10 @@
 
 
 #include "xc.h"
+#include "ChipConfig.h"
 #include "IO.h"
+#include "PWM.h"
+
 int main(void) {
     /***************************************************************************************************/
     //Initialisation de l?oscillateur
@@ -25,6 +28,13 @@ int main(void) {
 
     InitTimer1();
     InitTimer23();
+    
+    InitPWM();
+    
+    
+
+    //PWMSetSpeed(20, MOTEUR_DROIT);
+    //PWMSetSpeed(20, MOTEUR_GAUCHE);
 
     /****************************************************************************************************/
     // Boucle Principale

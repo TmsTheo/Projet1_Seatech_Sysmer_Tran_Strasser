@@ -3,7 +3,7 @@
     <type>com.microchip.mplab.nbide.embedded.makeproject</type>
     <configuration>
         <data xmlns="http://www.netbeans.org/ns/make-project/1">
-            <name>test</name>
+            <name>Robot_Tran_Strasser</name>
             <creation-uuid>536a83f7-1633-4109-be91-4ebc5923a915</creation-uuid>
             <make-project-type>0</make-project-type>
             <c-extensions>c</c-extensions>
