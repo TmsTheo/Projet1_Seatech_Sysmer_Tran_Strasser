@@ -5,7 +5,7 @@
 #include "Robot.h"
 #include "ToolBox.h"
 
-#define PWMPER 5
+#define PWMPER 100
 unsigned char acceleration = 1;
 
 void InitPWM(void)
