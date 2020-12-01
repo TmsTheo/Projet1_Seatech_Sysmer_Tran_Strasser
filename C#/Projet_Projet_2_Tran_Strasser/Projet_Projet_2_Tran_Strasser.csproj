@@ -58,9 +58,6 @@
     <Compile Include="Class1.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="Class2.cs">
-      <SubType>Component</SubType>
-    </Compile>
     <Compile Include="Window1.xaml.cs">
       <DependentUpon>Window1.xaml</DependentUpon>
     </Compile>
