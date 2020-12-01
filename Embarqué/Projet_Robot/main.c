@@ -14,6 +14,7 @@
 #include "Robot.h"
 #include "main.h"
 #include "timer.h"
+#include "UART.h"
 
 int main(void) {
     /***************************************************************************************************/
@@ -37,6 +38,8 @@ int main(void) {
     InitADC1();
 
     InitPWM();
+    
+    InitUART();
 
     //PWMSetSpeed(20, MOTEUR_DROIT);
     //PWMSetSpeed(20, MOTEUR_GAUCHE);
