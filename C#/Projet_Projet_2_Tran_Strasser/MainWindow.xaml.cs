@@ -16,6 +16,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.Windows.Threading;
 
 namespace Projet_Projet_2_Tran_Strasser
 {
@@ -26,39 +27,78 @@ namespace Projet_Projet_2_Tran_Strasser
    
     public partial class MainWindow : Window
     {
-        ReliableSerialPort reliableSerialPort1;
+        ReliableSerialPort  serialPort1;
         public MainWindow()
         {
             InitializeComponent();
-            reliableSerialPort1 = new ReliableSerialPort("COM9", 115200, System.IO.Ports.Parity.None, 8, System.IO.Ports.StopBits.One);
-            reliableSerialPort1.DataReceived += ReliableSerialPort1_DataReceived;
-            reliableSerialPort1.Open();
+            serialPort1 = new ReliableSerialPort("COM9", 115200, System.IO.Ports.Parity.None, 8, System.IO.Ports.StopBits.One);
+            serialPort1.DataReceived += SerialPort1_DataReceived;
+            serialPort1.Open();
 
+            //Config timer
+            timerAffichage = new DispatcherTimer();
+            timerAffichage.Interval = new TimeSpan(0, 0, 0, 0, 100);
+            timerAffichage.Tick += TimerAffichage_Tick;
+            timerAffichage.Start();
         }
 
-        public void ReliableSerialPort1_DataReceived(object sender, DataReceivedArgs e)
+        string receivedText;
+        Queue<byte> byteListReceived = new Queue<byte>();
+        DispatcherTimer timerAffichage;
+
+
+        public void SerialPort1_DataReceived(object sender, DataReceivedArgs e)
         {
-            textBoxReception.Text += Encoding.UTF8.GetString(e.Data, 0, e.Data.Length);
+            //textBoxReception.Text += Encoding.UTF8.GetString(e.Data, 0, e.Data.Length);
+            //receivedText += Encoding.UTF8.GetString(e.Data, 0, e.Data.Length); 
+            for (int i = 0; i < e.Data.Length; i++)
+            {
+                byteListReceived.Enqueue(e.Data[i]);
+            }
+        }
+
+        private void TimerAffichage_Tick(object sender, EventArgs e)
+        {
+            while (byteListReceived.Count>0)
+            {
+                byte b = byteListReceived.Dequeue();
+                textBoxReception.Text += b.ToString()+" ";
+            }
         }
 
         private void button_Click(object sender, RoutedEventArgs e)
         {
-            if (buttonEnvoyer.Background == Brushes.RoyalBlue)
-                buttonEnvoyer.Background = Brushes.Beige;
-            else
-                buttonEnvoyer.Background = Brushes.RoyalBlue;
-            textBoxReception.Text = textBoxReception.Text + "Reçu : " + textBoxEmission.Text +"\n";
-            textBoxEmission.Text = "";
+            sendMessage();
         }
 
         private void textBoxEmission_KeyUp(object sender, KeyEventArgs e)
         {
             if (e.Key == Key.Enter)
             {
-                textBoxReception.Text = textBoxReception.Text + "Reçu : " + textBoxEmission.Text;
-                reliableSerialPort1.WriteLine(textBoxEmission.Text);
-                textBoxEmission.Text = "";
+                sendMessage();
             }
+        }
+
+        private void sendMessage()
+        {   
+            serialPort1.WriteLine(textBoxEmission.Text);
+            textBoxEmission.Text = "";
+        }
+
+        private void buttonClear_Click(object sender, RoutedEventArgs e)
+        {
+            textBoxReception.Text = "";
+            textBoxEmission.Text = "";
+        }
+
+        byte[] byteList = new byte[20];
+        private void buttonTest_Click(object sender, RoutedEventArgs e)
+        {
+            for (int i = 1; i < 20; i++)
+            {
+                byteList[i] = (byte)(2 * i);
+            }
+            serialPort1.Write(byteList, 0, byteList.Length);
         }
     }
 }
