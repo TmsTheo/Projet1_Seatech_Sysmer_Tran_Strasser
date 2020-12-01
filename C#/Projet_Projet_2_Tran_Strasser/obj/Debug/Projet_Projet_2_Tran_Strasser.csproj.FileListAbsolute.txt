@@ -1,0 +1,17 @@
+C:\Projet\RobotWPF\Projet_Projet_2_Tran_Strasser\obj\Debug\Projet_Projet_2_Tran_Strasser.csprojAssemblyReference.cache
+C:\Projet\RobotWPF\Projet_Projet_2_Tran_Strasser\obj\Debug\MainWindow.g.cs
+C:\Projet\RobotWPF\Projet_Projet_2_Tran_Strasser\obj\Debug\App.g.cs
+C:\Projet\RobotWPF\Projet_Projet_2_Tran_Strasser\obj\Debug\Projet_Projet_2_Tran_Strasser_MarkupCompile.cache
+C:\Projet\RobotWPF\Projet_Projet_2_Tran_Strasser\obj\Debug\Projet_Projet_2_Tran_Strasser_MarkupCompile.lref
+C:\Projet\RobotWPF\Projet_Projet_2_Tran_Strasser\bin\Debug\Projet_Projet_2_Tran_Strasser.exe.config
+C:\Projet\RobotWPF\Projet_Projet_2_Tran_Strasser\bin\Debug\Projet_Projet_2_Tran_Strasser.exe
+C:\Projet\RobotWPF\Projet_Projet_2_Tran_Strasser\bin\Debug\Projet_Projet_2_Tran_Strasser.pdb
+C:\Projet\RobotWPF\Projet_Projet_2_Tran_Strasser\obj\Debug\MainWindow.baml
+C:\Projet\RobotWPF\Projet_Projet_2_Tran_Strasser\obj\Debug\Projet_Projet_2_Tran_Strasser.g.resources
+C:\Projet\RobotWPF\Projet_Projet_2_Tran_Strasser\obj\Debug\Projet_Projet_2_Tran_Strasser.Properties.Resources.resources
+C:\Projet\RobotWPF\Projet_Projet_2_Tran_Strasser\obj\Debug\Projet_Projet_2_Tran_Strasser.csproj.GenerateResource.cache
+C:\Projet\RobotWPF\Projet_Projet_2_Tran_Strasser\obj\Debug\Projet_Projet_2_Tran_Strasser.csproj.CoreCompileInputs.cache
+C:\Projet\RobotWPF\Projet_Projet_2_Tran_Strasser\obj\Debug\Projet_Projet_2_Tran_Strasser.exe
+C:\Projet\RobotWPF\Projet_Projet_2_Tran_Strasser\obj\Debug\Projet_Projet_2_Tran_Strasser.pdb
+C:\Projet\RobotWPF\Projet_Projet_2_Tran_Strasser\obj\Debug\Window1.g.cs
+C:\Projet\RobotWPF\Projet_Projet_2_Tran_Strasser\obj\Debug\Window1.baml
