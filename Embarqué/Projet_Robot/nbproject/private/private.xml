@@ -2,6 +2,17 @@
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
-        <group/>
+        <group>
+            <file>file:/C:/Github/Projet1_Seatech_Sysmer_Tran_Strasser/Embarqué/Projet_Robot/ADC.c</file>
+            <file>file:/C:/Github/Projet1_Seatech_Sysmer_Tran_Strasser/Embarqué/Projet_Robot/UART.c</file>
+            <file>file:/C:/Github/Projet1_Seatech_Sysmer_Tran_Strasser/Embarqué/Projet_Robot/CB_TX1.h</file>
+            <file>file:/C:/Github/Projet1_Seatech_Sysmer_Tran_Strasser/Embarqué/Projet_Robot/IO.c</file>
+            <file>file:/C:/Github/Projet1_Seatech_Sysmer_Tran_Strasser/Embarqué/Projet_Robot/main.c</file>
+            <file>file:/C:/Github/Projet1_Seatech_Sysmer_Tran_Strasser/Embarqué/Projet_Robot/CB_RX1.h</file>
+            <file>file:/C:/Github/Projet1_Seatech_Sysmer_Tran_Strasser/Embarqué/Projet_Robot/IO.h</file>
+            <file>file:/C:/Github/Projet1_Seatech_Sysmer_Tran_Strasser/Embarqué/Projet_Robot/CB_RX1.c</file>
+            <file>file:/C:/Github/Projet1_Seatech_Sysmer_Tran_Strasser/Embarqué/Projet_Robot/UART.h</file>
+            <file>file:/C:/Github/Projet1_Seatech_Sysmer_Tran_Strasser/Embarqué/Projet_Robot/CB_TX1.c</file>
+        </group>
     </open-files>
 </project-private>

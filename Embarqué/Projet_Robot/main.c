@@ -37,9 +37,10 @@ int main(void) {
 
     InitADC1();
 
-    InitPWM();
+    //InitPWM();
     
     InitUART();
+    __attribute__((interrupt, no_auto_psv)) _U1RXInterrupt(void);
 
     //PWMSetSpeed(20, MOTEUR_DROIT);
     //PWMSetSpeed(20, MOTEUR_GAUCHE);
@@ -52,6 +53,12 @@ int main(void) {
     // Boucle Principale
     /****************************************************************************************************/
     while (1) {
+        
+        /*
+        SendMessageDirect((unsigned char*) "Bonjour",7);
+        __delay32(40000000);
+        */
+        
         if (ADCIsConversionFinished()) {
             ADCClearConversionFinishedFlag();
             unsigned int * result = ADCGetResult();

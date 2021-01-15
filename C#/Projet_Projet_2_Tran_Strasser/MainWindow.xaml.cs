@@ -62,7 +62,7 @@ namespace Projet_Projet_2_Tran_Strasser
             while (byteListReceived.Count > 0)
             {
                 byte b = byteListReceived.Dequeue();
-                textBoxReception.Text += b.ToString() + " ";
+                textBoxReception.Text += b.ToString() + "/" + b.ToString("X2") + " ";
             }
         }
 
