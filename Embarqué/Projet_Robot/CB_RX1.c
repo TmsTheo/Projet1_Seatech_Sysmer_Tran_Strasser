@@ -13,20 +13,21 @@ unsigned char cbRx1Buffer[CBRX1_BUFFER_SIZE];
 
 void CB_RX1_Add(unsigned char value) {
     if(CB_RX1_GetRemainingSize()>0) {
-        if(cbRxHead < CBRX1_BUFFER_SIZE){
-           cbRx1Head = cbRx1Head + 1;
+        if(cbRx1Head < CBRX1_BUFFER_SIZE - 1){
            cbRx1Buffer[cbRx1Head] = value; 
+           cbRx1Head = cbRx1Head + 1;
         }
         else {
-            cbRx1Head = 1;
            cbRx1Buffer[cbRx1Head] = value; 
+           cbRx1Head = 0;
         }
     }
 }
 
 unsigned char CB_RX1_Get(void) {
     unsigned char value=cbRx1Buffer[cbRx1Tail];
-    //?
+    value = cbRx1Buffer[cbRx1Tail];
+    cbRx1Tail = cbRx1Tail + 1;
     return value;
 }
 
@@ -39,15 +40,15 @@ unsigned char CB_RX1_IsDataAvailable(void) {
 
 void __attribute__((interrupt, no_auto_psv)) _U1RXInterrupt(void) {
     IFS0bits.U1RXIF = 0; // clear RX interrupt flag
-    /* check for receive errors */
+    // check for receive errors
     if (U1STAbits.FERR == 1) {
         U1STAbits.FERR = 0;
     }
-    /* must clear the overrun error to keep uart receiving */
+    // must clear the overrun error to keep uart receiving
     if (U1STAbits.OERR == 1) {
         U1STAbits.OERR = 0;
     }
-    /* get the data */
+    // get the data 
     while(U1STAbits.URXDA == 1) {
         CB_RX1_Add(U1RXREG);
     }
@@ -55,7 +56,7 @@ void __attribute__((interrupt, no_auto_psv)) _U1RXInterrupt(void) {
 
 int CB_RX1_GetRemainingSize(void) {
     int rSizeRecep;
-    if(cbRx1Haed > cbRx1Tail) {
+    if(cbRx1Head >= cbRx1Tail) {
         rSizeRecep = CBRX1_BUFFER_SIZE - (cbRx1Head - cbRx1Tail);
     }
     else {
@@ -67,6 +68,12 @@ int CB_RX1_GetRemainingSize(void) {
 
 int CB_RX1_GetDataSize(void) {
     int rSizeRecep;
-    rsizeRecep = cbRx1Buffer[cbRx1Tail].size();
-    return rSizeRecep;
+    if(cbRx1Head >= cbRx1Tail){
+        rSizeRecep = cbRx1Head - cbRx1Tail;
+        return rSizeRecep;
+    }
+    else {
+        rSizeRecep = cbRx1Head + 128 - cbRx1Tail;
+    }   
 }
+ 

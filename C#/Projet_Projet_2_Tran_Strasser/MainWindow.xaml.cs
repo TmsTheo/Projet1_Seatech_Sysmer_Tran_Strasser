@@ -62,7 +62,7 @@ namespace Projet_Projet_2_Tran_Strasser
             while (byteListReceived.Count > 0)
             {
                 byte b = byteListReceived.Dequeue();
-                textBoxReception.Text += b.ToString() + "/" + b.ToString("X2") + " ";
+                textBoxReception.Text += b.ToString("X2") + " ";// + "/" + b.ToString("X2") + " ";
             }
         }
 
@@ -98,7 +98,39 @@ namespace Projet_Projet_2_Tran_Strasser
             {
                 byteList[i] = (byte)(2 * i);
             }
-            serialPort1.Write(byteList, 0, byteList.Length);
+            //serialPort1.Write(byteList, 0, byteList.Length);
+            UartEncodeAndSendMessage(0x0080, 7, Encoding.ASCII.GetBytes("Bonjour"));
+
         }
+
+        byte CalculateChecksum(int msgFunction, int msgPayloadLength, byte[] msgPayload)
+        {
+            byte checksum = (byte)(0xFE ^ msgFunction);
+            checksum ^= (byte)msgPayloadLength;
+            for(int i = 0; i < msgPayloadLength; i++)
+                checksum ^= msgPayload[i];
+            
+            return checksum;
+        }
+
+        void UartEncodeAndSendMessage(int msgFunction, int msgPayloadLength, byte[] msgPayload)
+        {
+            byte[] MessageFormatte = new byte[msgPayloadLength+4];
+
+            MessageFormatte[0] = (byte)0xFE;
+            MessageFormatte[1] = (byte)msgFunction;
+            MessageFormatte[2] = (byte)msgPayloadLength;
+
+            for(int i = 0; i < msgPayloadLength; i++)
+                MessageFormatte[3+i] = msgPayload[i];
+
+            byte checksum = CalculateChecksum(msgFunction, msgPayloadLength, msgPayload);
+
+            MessageFormatte[msgPayloadLength + 3] = checksum;
+
+            serialPort1.Write(MessageFormatte, 0, MessageFormatte.Length);
+            
+        }
+
     }
 }

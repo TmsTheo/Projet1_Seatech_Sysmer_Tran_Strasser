@@ -15,6 +15,9 @@
 #include "main.h"
 #include "timer.h"
 #include "UART.h"
+#include "CB_TX1.h"
+#include "CB_RX1.h"
+#include <libpic30.h>
 
 int main(void) {
     /***************************************************************************************************/
@@ -40,7 +43,7 @@ int main(void) {
     //InitPWM();
     
     InitUART();
-    __attribute__((interrupt, no_auto_psv)) _U1RXInterrupt(void);
+    //__attribute__((interrupt, no_auto_psv)) _U1RXInterrupt(void);
 
     //PWMSetSpeed(20, MOTEUR_DROIT);
     //PWMSetSpeed(20, MOTEUR_GAUCHE);
@@ -54,10 +57,18 @@ int main(void) {
     /****************************************************************************************************/
     while (1) {
         
-        /*
-        SendMessageDirect((unsigned char*) "Bonjour",7);
-        __delay32(40000000);
-        */
+        
+        //SendMessageDirect((unsigned char*) "Bonjour",7);
+        
+        //SendMessage((unsigned char*) "Hello",5);
+        //__delay32(40000000);
+        
+        int i;
+        for (i=0; i < CB_RX1_GetDataSize(); i++){
+            unsigned char c = CB_RX1_Get();
+            SendMessage(&c,1);
+        }
+        __delay32(1000);
         
         if (ADCIsConversionFinished()) {
             ADCClearConversionFinishedFlag();
