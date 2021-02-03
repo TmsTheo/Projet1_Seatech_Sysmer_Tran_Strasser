@@ -63,6 +63,7 @@ namespace Projet_Projet_2_Tran_Strasser
             {
                 byte b = byteListReceived.Dequeue();
                 textBoxReception.Text += b.ToString("X2") + " ";// + "/" + b.ToString("X2") + " ";
+                DecodeMessage(b);
             }
         }
 
@@ -115,21 +116,114 @@ namespace Projet_Projet_2_Tran_Strasser
 
         void UartEncodeAndSendMessage(int msgFunction, int msgPayloadLength, byte[] msgPayload)
         {
-            byte[] MessageFormatte = new byte[msgPayloadLength+4];
+            byte[] MessageFormatte = new byte[msgPayloadLength+6];
 
             MessageFormatte[0] = (byte)0xFE;
-            MessageFormatte[1] = (byte)msgFunction;
-            MessageFormatte[2] = (byte)msgPayloadLength;
+            MessageFormatte[1] = (byte)0x00;
+            MessageFormatte[2] = (byte)msgFunction;
+            if (msgPayloadLength <= 255)
+            {
+                MessageFormatte[3] = (byte)0x00;
+                MessageFormatte[4] = (byte)msgPayloadLength;
+            }
+            else
+            {
+                MessageFormatte[3] = (byte)(msgPayloadLength-255);
+                MessageFormatte[4] = (byte)(255);
+            }
 
-            for(int i = 0; i < msgPayloadLength; i++)
-                MessageFormatte[3+i] = msgPayload[i];
+            for (int i = 0; i < msgPayloadLength; i++)
+                MessageFormatte[5+i] = msgPayload[i];
 
             byte checksum = CalculateChecksum(msgFunction, msgPayloadLength, msgPayload);
 
-            MessageFormatte[msgPayloadLength + 3] = checksum;
+            MessageFormatte[msgPayloadLength + 5] = checksum;
 
             serialPort1.Write(MessageFormatte, 0, MessageFormatte.Length);
             
+        }
+
+        public enum StateReception
+        {
+            Waiting,
+            FunctionMSB,
+            FunctionLSB,
+            PayloadLengthMSB,
+            PayloadLengthLSB,
+            Payload,
+            CheckSum
+        }
+
+        StateReception rcvState = StateReception.Waiting;
+        int msgDecodedFunction = 0;
+        int msgDecodedPayloadLength = 0;
+        byte[] msgDecodedPayload;
+        int msgDecodedPayloadIndex = 0;
+
+        private void DecodeMessage(byte c)
+        {
+            switch (rcvState)
+            {
+                case StateReception.Waiting:
+                    if (c == (byte)0xFE)
+                        rcvState = StateReception.FunctionMSB;
+                    break;
+
+                case StateReception.FunctionMSB:
+                    msgDecodedFunction = c;
+                    rcvState = StateReception.FunctionLSB;
+                    break;
+
+                case StateReception.FunctionLSB:
+                    msgDecodedFunction = msgDecodedFunction + c;
+                    rcvState = StateReception.PayloadLengthMSB;
+                    break;
+
+                case StateReception.PayloadLengthMSB:
+                    msgDecodedPayloadLength = c;
+                    rcvState = StateReception.PayloadLengthLSB;
+                    break;
+
+                case StateReception.PayloadLengthLSB:
+                    msgDecodedPayloadLength += c;
+                    if (msgDecodedPayloadLength != 0)
+                    {
+                        rcvState = StateReception.Payload;
+                        msgDecodedPayload = new byte[msgDecodedPayloadLength];
+                        msgDecodedPayloadIndex = 0;
+                    }
+                    if (msgDecodedPayloadLength == 0)
+                        rcvState = StateReception.CheckSum;
+                    break;
+
+                case StateReception.Payload:
+                    if (msgDecodedPayloadIndex < msgDecodedPayloadLength)
+                    {
+                        msgDecodedPayload[msgDecodedPayloadIndex] = c;
+                        msgDecodedPayloadIndex = msgDecodedPayloadIndex + 1;
+                    }
+                    if (msgDecodedPayloadIndex == msgDecodedPayloadLength)
+                        rcvState = StateReception.CheckSum;
+                    break;
+
+                case StateReception.CheckSum:
+                    byte calculatedChecksum = CalculateChecksum(msgDecodedFunction, msgDecodedPayloadLength, msgDecodedPayload);
+                    byte receivedChecksum = c;
+                    if (calculatedChecksum == receivedChecksum)
+                    {
+                        Console.WriteLine("OK");//Success, on a un message valide
+                    }
+                    else
+                    {
+                        Console.WriteLine("ERREUR");
+                    }
+                        rcvState = StateReception.Waiting;
+                    break;
+
+                default:
+                    rcvState = StateReception.Waiting;
+                    break;
+            }
         }
 
     }
